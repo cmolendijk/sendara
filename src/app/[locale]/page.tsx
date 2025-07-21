@@ -1,6 +1,17 @@
 import Image from "next/image";
+import {use} from 'react';
+import {useTranslations} from 'next-intl';
+import {Link} from '@/i18n/navigation';
+import {setRequestLocale} from 'next-intl/server';
 
-export default function Home() {
+export default function HomePage({params}: {params: Promise<{locale: string}>}) {
+  const {locale} = use(params);
+  
+  // Enable static rendering
+  setRequestLocale(locale);
+  
+  const t = useTranslations('HomePage');
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -12,16 +23,19 @@ export default function Home() {
           height={38}
           priority
         />
+        
+        <h1 className="text-2xl font-bold">{t('title')}</h1>
+        
         <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
           <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
+            {t('getStarted')}{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
+              src/app/[locale]/page.tsx
             </code>
             .
           </li>
           <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
+            {t('saveChanges')}
           </li>
         </ol>
 
@@ -39,7 +53,7 @@ export default function Home() {
               width={20}
               height={20}
             />
-            Deploy now
+            {t('deployNow')}
           </a>
           <a
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
@@ -47,8 +61,26 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Read our docs
+            {t('readDocs')}
           </a>
+        </div>
+
+        {/* Language switcher */}
+        <div className="flex gap-2 mt-4">
+          <Link 
+            href="/" 
+            locale="en"
+            className="px-3 py-1 rounded border hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            English
+          </Link>
+          <Link 
+            href="/" 
+            locale="nl"
+            className="px-3 py-1 rounded border hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            Nederlands
+          </Link>
         </div>
       </main>
       <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
@@ -65,7 +97,7 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Learn
+          {t('learn')}
         </a>
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
@@ -80,7 +112,7 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Examples
+          {t('examples')}
         </a>
         <a
           className="flex items-center gap-2 hover:underline hover:underline-offset-4"
@@ -95,9 +127,16 @@ export default function Home() {
             width={16}
             height={16}
           />
-          Go to nextjs.org →
+          {t('goToNextjs')}
         </a>
       </footer>
     </div>
   );
 }
+
+export function generateStaticParams() {
+  return [
+    { locale: 'en' },
+    { locale: 'nl' }
+  ];
+} 

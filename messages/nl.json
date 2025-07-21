@@ -1,0 +1,13 @@
+{
+  "HomePage": {
+    "title": "Hallo wereld!",
+    "about": "Ga naar de over pagina",
+    "getStarted": "Begin met het bewerken van",
+    "saveChanges": "Sla op en zie je wijzigingen direct.",
+    "deployNow": "Nu implementeren",
+    "readDocs": "Lees onze documentatie",
+    "learn": "Leren",
+    "examples": "Voorbeelden",
+    "goToNextjs": "Ga naar nextjs.org →"
+  }
+} 
